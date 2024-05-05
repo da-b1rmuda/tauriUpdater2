@@ -1,6 +1,6 @@
 {
-  "name": "r2-t2",
-  "version": "0.2.5",
+  "name": "automation",
+  "version": "1.0.0",
   "type": "module",
   "private": true,
   "dependencies": {
@@ -63,7 +63,7 @@
     ]
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.4.0",
+    "@tauri-apps/cli": "^1.5.12",
     "@vitejs/plugin-react": "^4.0.0",
     "chai": "^4.3.7",
     "concurrently": "^8.2.0",

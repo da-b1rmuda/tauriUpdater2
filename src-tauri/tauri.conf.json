@@ -18,7 +18,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "App.Name",
+      "identifier": "App.NameAutomation",
       "publisher": "Unknown Publisher",
       "copyright": "Copyright Notice",
       "icon": [
@@ -50,12 +50,12 @@
       }
     },
     "updater": {
-      "active": false,
+      "active": true,
       "dialog": false,
       "endpoints": [
-        "https://youtu.be/ZXjlZBisYPQ"
+        "https://3x5tfk87-3000.euw.devtunnels.ms/tauri-releases/tauriUpdaterAndReleses/{{target}}/{{current_version}}"
       ],
-      "pubkey": ""
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEVGNDFDN0FGRTNENkI5QTEKUldTaHVkYmpyOGRCN3hzWklBMm05a0NyZDFvN2dzRGZUMmI3b2hOMWFrS3M3VEMyeDBJaURRVVgK"
     },
     "allowlist": {
       "all": false,
