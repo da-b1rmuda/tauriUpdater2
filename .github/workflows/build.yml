@@ -2,8 +2,7 @@ name: Publish Release
 on:
   push:
     tags:
-      - 'v*'
-    branches: '*'
+      - "v*"
   workflow_dispatch:
 
 env:
@@ -26,40 +25,6 @@ jobs:
           echo "changelog=$(git log $PREV_TAG...${{ github.ref_name }} --pretty=format:"- %s")" >> $GITHUB_OUTPUT
     outputs:
       changelog: ${{ steps.build_changelog.outputs.changelog }}
-  build-arm:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    - name: Setup ARM build environment
-      run: |
-          rustup target add aarch64-unknown-linux-gnu
-          sudo apt install gcc-aarch64-linux-gnu
-          sudo dpkg --add-architecture arm64
-          . /etc/os-release
-          echo "using Ubuntu with codename $VERSION_CODENAME"
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports $VERSION_CODENAME main restricted" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports $VERSION_CODENAME-updates main restricted" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports $VERSION_CODENAME universe" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports $VERSION_CODENAME-updates universe" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports $VERSION_CODENAME multiverse" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports $VERSION_CODENAME-updates multiverse" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports $VERSION_CODENAME-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports $VERSION_CODENAME-security main restricted" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports $VERSION_CODENAME-security universe" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=armhf,arm64] http://ports.ubuntu.com/ubuntu-ports $VERSION_CODENAME-security multiverse" | sudo tee -a /etc/apt/sources.list
-          sudo apt update
-          sudo apt upgrade -y
-          sudo apt install libwebkit2gtk-4.0-dev:arm64 -y
-          sudo apt install libssl-dev:arm64 -y
-          export PKG_CONFIG_SYSROOT_DIR=/usr/aarch64-linux-gnu/
-          yarn
-          yarn rls --target aarch64-unknown-linux-gnu
-    - name: Upload deb bundle
-      uses: actions/upload-artifact@v4
-      with:
-        name: ARM Debian File
-        path: src-tauri/target/release/bundle/deb/*arm64.deb
   release:
     strategy:
       fail-fast: false
@@ -77,7 +42,7 @@ jobs:
         uses: actions/setup-node@v4
         # NOTE: enterprise developers may hard code a version
         with:
-          node-version: 'lts/*'
+          node-version: "lts/*"
           cache: yarn
           # node-version-file: '.nvmrc'
 
@@ -88,7 +53,7 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
-          workspaces: './src-tauri -> target'
+          workspaces: "./src-tauri -> target"
 
       - name: Install Ubuntu dependencies
         if: matrix.platform == 'ubuntu-latest'
@@ -109,7 +74,7 @@ jobs:
         if: ${{ github.ref_type == 'branch' && matrix.platform == 'windows-latest' }}
         uses: actions/upload-artifact@v4
         with:
-          name: 'Windows Installers'
+          name: "Windows Installers"
           path: |
             src-tauri/release/bundle/msi/*.msi
             src-tauri/release/bundle/nsis/*.exe
@@ -118,7 +83,7 @@ jobs:
         if: ${{ github.ref_type == 'branch' && matrix.platform == 'macos-latest' }}
         uses: actions/upload-artifact@v4
         with:
-          name: 'macOS Installer'
+          name: "macOS Installer"
           path: |
             src-tauri/release/bundle/dmg/*.dmg
 
@@ -126,20 +91,17 @@ jobs:
         if: ${{ github.ref_type == 'branch' && matrix.platform == 'ubuntu-latest' }}
         uses: actions/upload-artifact@v4
         with:
-          name: 'Linux Distributions'
+          name: "Linux Distributions"
           path: |
             src-tauri/target/release/bundle/deb/*.deb
             src-tauri/target/release/bundle/AppImage/*.AppImage
 
-      # TODO: https://tauri.app/v1/guides/building/linux#cross-compiling-tauri-applications-for-arm-based-devices
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
         if: ${{ github.ref_type == 'tag' }}
-        # if u get Error: Resource not accessible by integration
-        # go to repository Settings => Action => General => Workflow permissions => Switch to Read and Write permisions
         env:
           CI: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         with:
