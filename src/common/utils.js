@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import packageJson from "../../package.json";
 export { localforage };
 
-export const HEADER_TITLE = "HEADER_TITLE goes here hi Lesha";
+export const HEADER_TITLE = "HEADER_TITLE goes here hi Denis";
 export const FOOTER = "FOOTER goes here";
 export const VERSION = packageJson.version;
 
