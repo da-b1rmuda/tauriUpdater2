@@ -1,8 +1,8 @@
 [package]
 name = "automation"
 version = "1.0.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "Template"
+authors = ["da_b1rmuda"]
 license = ""
 repository = ""
 edition = "2021"

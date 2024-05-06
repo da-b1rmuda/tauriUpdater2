@@ -18,7 +18,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "App.NameAutomation",
+      "identifier": "App.automation",
       "publisher": "Unknown Publisher",
       "copyright": "Copyright Notice",
       "icon": [
