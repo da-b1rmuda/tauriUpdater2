@@ -63,6 +63,7 @@ jobs:
 
       - name: Install frontend
         run: |
+          yarn install --network-timeout 1000000
           yarn --frozen-lockfile
 
       - name: CI Build
