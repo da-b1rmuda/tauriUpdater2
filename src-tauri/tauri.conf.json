@@ -1,6 +1,6 @@
 {
   "package": {
-    "productName": "Product Name",
+    "productName": "ClearTemplate",
     "version": "../package.json"
   },
   "build": {
